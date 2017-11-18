@@ -10,10 +10,17 @@ load(datafile);
 [rows neurons] = size(spikes_binned);
 spike_times = cell(neurons);
 isi = cell(neurons);
+
 for i = 1:neurons;
 spike_times{i} = find(spikes_binned(:,i) == 1);
 isi{i} = diff(spike_times{i});
-figure(i); 
+
+% Separate figures
+% figure(i); 
+
+% One figure with 10 subplots
+subplot(2,5,i);
+
 histogram(isi{i},0:1:10000);
 xlim([0 1000]);
 xlabel('ISI (ms)');
