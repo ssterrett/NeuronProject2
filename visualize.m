@@ -1,4 +1,4 @@
-function visualize(file)
+function [x_at_spiketimes, y_at_spiketimes]= visualize(file)
 % Visualizes spike positions over time
 
 % Error condition
@@ -13,13 +13,12 @@ load(file);
 figure;
 for i = 1:length(spikes_binned(1,:))
     % Define x,y position where spikes occur
-    x_at_spiketimes = xN(find(spikes_binned(:,i)==1));
-    y_at_spiketimes = yN(find(spikes_binned(:,i)==1));
-    % NEED TO SAVE X/Y AT SPIKETIMES
+    x_at_spiketimes{i} = xN(find(spikes_binned(:,i)==1));
+    y_at_spiketimes{i} = yN(find(spikes_binned(:,i)==1));
     
     % Plot
     subplot(2,5,i)
-    plot(xN,yN,x_at_spiketimes,y_at_spiketimes,'r.');
+    plot(xN,yN,x_at_spiketimes{i},y_at_spiketimes{i},'r.');
     axis tight square;
     xlabel('x position (m)'); ylabel('y position (m)');
     title(['Spike positions, Neuron ' num2str(i)]);
