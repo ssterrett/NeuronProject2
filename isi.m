@@ -21,7 +21,7 @@ isi{i} = diff(spike_times{i});
 % One figure with 10 subplots
 subplot(2,5,i);
 
-histogram(isi{i},0:1:10000);
+histogram(isi{i},10000);
 xlim([0 1000]);
 xlabel('ISI (ms)');
 ylabel('Count');
