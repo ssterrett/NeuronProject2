@@ -20,12 +20,16 @@ figure(1);
 for i = 1:length(b{1}(1,:))
     subplot(2,5,i)
     errorbar(b{1}(:,i),stats{1}(i).se);
+    hold on;
+    xlabel('\beta_i');
+    ylabel('\beta value');
     title(['Model 1, Neuron ' num2str(i)]);
+    plot(1:length(b{1}(:,i)),zeros(length(b{1}(:,i)),1),'r-');
 end
 
 % P-values
 for i = 1:length(b{1}(1,:))
-    disp(['P-values for model 1, Neuron ' num2str(i) ': ' num2str(stats{1}(1).p')]);
+    disp(['P-values for model 1, Neuron ' num2str(i) ': ' num2str(stats{1}(i).p')]);
 end
 
 % AIC
@@ -86,12 +90,16 @@ figure(2);
 for i = 1:length(b{2}(1,:))
     subplot(2,5,i)
     errorbar(b{2}(:,i),stats{2}(i).se);
+    hold on;
+    plot(1:length(b{2}(:,i)),zeros(length(b{2}(:,i)),1),'r-');
+    xlabel('\beta_i');
+    ylabel('\beta value');
     title(['Model 2, Neuron ' num2str(i)]);
 end
 
 % P-values
 for i = 1:length(b{2}(1,:))
-    disp(['P-values for model 2, Neuron ' num2str(i) ': ' num2str(stats{2}(1).p')]);
+    disp(['P-values for model 2, Neuron ' num2str(i) ': ' num2str(stats{2}(i).p')]);
 end
 
 % AIC
@@ -149,12 +157,16 @@ figure(3);
 for i = 1:length(b{3}(1,:))
     subplot(2,5,i)
     errorbar(b{3}(:,i),stats{3}(i).se);
+    hold on;
+    plot(1:length(b{3}(:,i)),zeros(length(b{3}(:,i)),1),'r-');
+    xlabel('\beta_i');
+    ylabel('\beta value');
     title(['Model 3, Neuron ' num2str(i)]);
 end
 
 % P-values
 for i = 1:length(b{3}(1,:))
-    disp(['P-values for model 3, Neuron ' num2str(i) ': ' num2str(stats{3}(1).p')]);
+    disp(['P-values for model 3, Neuron ' num2str(i) ': ' num2str(stats{3}(i).p')]);
 end
 
 % AIC
@@ -201,7 +213,7 @@ for i = 1:length(spikes_binned(1,:))
     axis( [0 1 0 1] );
     xlabel('Uniform CDF');
     ylabel('Empirical CDF of Rescaled ISIs');
-    title(['Model 2: Neuron ' num2str(i) ': KS Plot']);
+    title(['Model 3: Neuron ' num2str(i) ': KS Plot']);
 
     ks_stat1(i) = max(abs(KSSorted1' - ((1:N)-.5)/N));
     
@@ -222,12 +234,16 @@ figure(4);
 for i = 1:length(b{4}(1,:))
     subplot(2,5,i)
     errorbar(b{4}(:,i),stats{4}(i).se);
+    hold on;
+    plot(1:length(b{4}(:,i)),zeros(length(b{4}(:,i)),1),'r-');
+    xlabel('\beta_i');
+    ylabel('\beta value');
     title(['Model 4, Neuron ' num2str(i)]);
 end
 
 % P-values
 for i = 1:length(b{4}(1,:))
-    disp(['P-values for model 4, Neuron ' num2str(i) ': ' num2str(stats{4}(1).p')]);
+    disp(['P-values for model 4, Neuron ' num2str(i) ': ' num2str(stats{4}(i).p')]);
 end
 
 % AIC
@@ -274,7 +290,7 @@ for i = 1:length(spikes_binned(1,:))
     axis( [0 1 0 1] );
     xlabel('Uniform CDF');
     ylabel('Empirical CDF of Rescaled ISIs');
-    title(['Model 2: Neuron ' num2str(i) ': KS Plot']);
+    title(['Model 4: Neuron ' num2str(i) ': KS Plot']);
 
     ks_stat1(i) = max(abs(KSSorted1' - ((1:N)-.5)/N));
     
@@ -296,12 +312,16 @@ figure(5);
 for i = 1:length(b{5}(1,:))
     subplot(2,5,i)
     errorbar(b{5}(:,i),stats{5}(i).se);
+    hold on;
+    plot(1:length(b{5}(:,i)),zeros(length(b{5}(:,i)),1),'r-');
+    xlabel('\beta_i');
+    ylabel('\beta value');
     title(['Model 5, Neuron ' num2str(i)]);
 end
 
 % P-values
 for i = 1:length(b{5}(1,:))
-    disp(['P-values for model 5, Neuron ' num2str(i) ': ' num2str(stats{5}(1).p')]);
+    disp(['P-values for model 5, Neuron ' num2str(i) ': ' num2str(stats{5}(i).p')]);
 end
 
 % AIC
@@ -348,7 +368,7 @@ for i = 1:length(spikes_binned(1,:))
     axis( [0 1 0 1] );
     xlabel('Uniform CDF');
     ylabel('Empirical CDF of Rescaled ISIs');
-    title(['Model 2: Neuron ' num2str(i) ': KS Plot']);
+    title(['Model 5: Neuron ' num2str(i) ': KS Plot']);
 
     ks_stat1(i) = max(abs(KSSorted1' - ((1:N)-.5)/N));
     
