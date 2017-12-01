@@ -22,9 +22,10 @@ isi{i} = diff(spike_times{i});
 subplot(2,5,i);
 
 histogram(isi{i},10000);
-xlim([0 1000]);
-xlabel('ISI (ms)');
-ylabel('Count');
+set(gca,'FontSize',14);
+xlim([0 500]);
+xlabel('ISI (ms)','FontSize',15);
+ylabel('Count','FontSize',15);
 title(['ISI Histogram for Neuron ' num2str(i)]);
 
 end
