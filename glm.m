@@ -79,12 +79,12 @@ for i = 1:length(spikes_binned(1,:))
     
     lambhs = zeros(length(spikes_binned(:,i))-260,length(spikes_binned(80:110,i)));
     for k = 1:length(spikes_binned(80:110,i))
-        lambhs(:,k) = spikes_binned((261-k):(end-k),i);
+        lambhs(:,k) = spikes_binned((261-(k+79)):(end-(k+79)),i);
     end
     
     lambhl = zeros(length(spikes_binned(:,i))-260,length(spikes_binned(240:260,i)));
     for k = 1:length(spikes_binned(240:260,i))
-        lambhl(:,k) = spikes_binned((261-k):(end-k),i);
+        lambhl(:,k) = spikes_binned((261-(k+239)):(end-(k+239)),i);
     end
     
     
@@ -98,7 +98,7 @@ for i = 1:length(spikes_binned(1,:))
     lambda2(:,:,i) = lamb;
     % All terms
     for k = 1:(length(b2(:,i)))
-        lambdaAll_1(k,i) = exp(b2(k,i))
+        lambdaAll_1(k,i) = exp(b2(k,i));
     end
 
     % Plotting positional lambda and circle defining position limits
@@ -169,7 +169,7 @@ for i = 1:length(spikes_binned(1,:))
     plot3(cos(-pi:1e-2:pi),sin(-pi:1e-2:pi),zeros(size(-pi:1e-2:pi)));
 
     % Plotting all individual exp(beta) values
-    figure(1004);
+    figure(1003);
     subplot(2,5,i)
     plot(1:length(b3(:,i)),lambdaAll_2(:,i),'r-')
     xlabel('Covariate number'); ylabel('e^{\beta_i}'); 

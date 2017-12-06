@@ -24,7 +24,7 @@ for i = 1:length(b{1}(1,:))
     xlabel('\beta_i');
     ylabel('\beta value');
     title(['Model 1, Neuron ' num2str(i)]);
-    plot(1:length(b{1}(:,i)),zeros(length(b{1}(:,i)),1),'r-');
+    plot(1:length(b{1}(:,i)),zeros(length(b{1}(:,i)),1),'r:');
 end
 
 % P-values
@@ -84,8 +84,9 @@ ks_stat{1} = ks_stat1;
 KSSorted{1} = KSSorted1;
 
 %---------------- Model 1b, Covariates: X, Y, X^2, Y^2, wall dist, speed, refractory, short, long --------------------
+% clearvars -except b dev lambda lambdaAll stats AIC ks_stat KSSorted
 % Computing speed
-vN = zeros(length(xN),10);
+vN = zeros(length(xN),1);
 vN(1) = 0;
 for j = 2:(length(xN)-1)
     vN(j) = sqrt((xN(j)-xN(j-1)).^2 +(yN(j)-yN(j-1)).^2);
@@ -96,12 +97,13 @@ vN(length(xN)) = vN(length(xN)-1);
 figure(2);
 for i = 1:length(b{2}(1,:))
     subplot(2,5,i)
-    errorbar(b{2}(:,i),stats{2}(i).se);
+    e = errorbar(b{2}(:,i),stats{2}(i).se);
+    e.Color = 'b';
     hold on;
     xlabel('\beta_i');
     ylabel('\beta value');
     title(['Model 1 (full), Neuron ' num2str(i)]);
-    plot(1:length(b{2}(:,i)),zeros(length(b{2}(:,i)),1),'r-');
+    plot(1:length(b{2}(:,i)),zeros(length(b{2}(:,i)),1),'r:');
 end
 
 % P-values
@@ -127,12 +129,12 @@ for i = 1:length(spikes_binned(1,:))
     
     lambhs = zeros(length(spikes_binned(:,i))-260,length(spikes_binned(80:110,i)));
     for k = 1:length(spikes_binned(80:110,i))
-        lambhs(:,k) = spikes_binned((261-k):(end-k),i);
+        lambhs(:,k) = spikes_binned((261-(k+79)):(end-(k+79)),i);
     end
     
     lambhl = zeros(length(spikes_binned(:,i))-260,length(spikes_binned(240:260,i)));
     for k = 1:length(spikes_binned(240:260,i))
-        lambhl(:,k) = spikes_binned((261-k):(end-k),i);
+        lambhl(:,k) = spikes_binned((261-(k+239)):(end-(k+239)),i);
     end
 
     % Defining lambdaEst
@@ -152,14 +154,17 @@ for i = 1:length(spikes_binned(1,:))
         lambhlBeta = lambhlBeta + b{2}(k,i).*lambhl(:,k-43);
     end
     
-    lambdaEst = exp(b{2}(1,i) + b{2}(2,i)*xN(261:end) + b{2}(3,i)*yN(261:end) + b{2}(4,i)*xN(261:end).^2 + b{2}(5,i)*yN(261:end).^2 + b{2}(6,i)*abs(1-sqrt(xN(261:end).^2 + yN(261:end).^2)) + b{2}(7,i)*vN(261:end) + lambhrBeta + lambhsBeta + lambhlBeta);
-
+    % Splitting lambdaEst due to memory constraints
+    lambdaEst = exp(b{2}(1,i) + b{2}(2,i)*xN(261:end) + b{2}(3,i)*yN(261:end) + b{2}(4,i)*xN(261:end).^2 + b{2}(5,i)*yN(261:end).^2 + b{2}(6,i)*abs(1-sqrt(xN(261:end).^2 + yN(261:end).^2)));
+    lambdaEst2 = exp(b{2}(7,i)*vN(261:end) + lambhrBeta);
+    lambdaEst3 = exp(lambhsBeta + lambhlBeta);
+    
     timestep = 1;
     lambdaInt = 0;
     j=0;
 
     for t=1:length(spikes_binned(:,i))-261
-        lambdaInt = lambdaInt + lambdaEst(t)*timestep;
+        lambdaInt = lambdaInt + (lambdaEst(t).*lambdaEst2(t))*timestep;
         if (spikes_binned(t,i))
             j = j + 1;
             KS(j,i) = 1-exp(-lambdaInt);
@@ -194,6 +199,13 @@ KSSorted{2} = KSSorted2;
 
 
 %---------------- Model 2, Covariates: Sinusoids -------------------- 
+% Computing speed
+vN = zeros(length(xN),1);
+vN(1) = 0;
+for j = 2:(length(xN)-1)
+    vN(j) = sqrt((xN(j)-xN(j-1)).^2 +(yN(j)-yN(j-1)).^2);
+end
+vN(length(xN)) = vN(length(xN)-1);
 
 % Confidence intervals for each covariate
 figure(3);
@@ -201,7 +213,7 @@ for i = 1:length(b{3}(1,:))
     subplot(2,5,i)
     errorbar(b{3}(:,i),stats{3}(i).se);
     hold on;
-    plot(1:length(b{3}(:,i)),zeros(length(b{3}(:,i)),1),'r-');
+    plot(1:length(b{3}(:,i)),zeros(length(b{3}(:,i)),1),'r:');
     xlabel('\beta_i');
     ylabel('\beta value');
     title(['Model 2, Neuron ' num2str(i)]);
